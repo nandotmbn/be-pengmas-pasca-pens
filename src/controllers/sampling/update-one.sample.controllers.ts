@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Request, Response } from 'express';
-import { Record } from '../../models';
+import { Sample } from '../../models';
 import { validatePostRecord } from '../../validators';
 import message from '../../views/message';
 
-async function updateRecord(req: Request, res: Response) {
+async function updateSample(req: Request, res: Response) {
   const isId = req.headers['accept-language'] == "id-ID";
   const { error } = validatePostRecord(req.body);
   if (error) {
@@ -16,7 +16,7 @@ async function updateRecord(req: Request, res: Response) {
       })
     );
   }
-  const record = await Record.findById(req.params.RecordId)
+  const record = await Sample.findById(req.params.RecordId)
   if(!record) {
     return res.status(404).send(message({
       statusCode: 404,
@@ -39,4 +39,4 @@ async function updateRecord(req: Request, res: Response) {
   }))
 }
 
-export { updateRecord };
+export { updateSample };

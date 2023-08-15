@@ -8,12 +8,15 @@ import { app, http, port } from './src/core/http.core';
 import WebSocket from './src/core/ws.core';
 import coreRoutes from './src/core/routes';
 import connectDatabase from './src/databases/connect.database';
+import {provinceAndCitiesInit} from './src/utils';
 dotEnv.config();
 
 createApp(app);
 coreRoutes(app);
 connectDatabase(process.env.MONGOURI!);
 WebSocket(app);
+
+provinceAndCitiesInit()
 
 http.listen(port, () => console.log(`[server]: App is listening on port ${port}`));
 export { http };

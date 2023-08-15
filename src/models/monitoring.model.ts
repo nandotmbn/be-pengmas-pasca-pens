@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose';
 
-const RecordSchema = new mongoose.Schema({
-  userId: {
+const MonitorSchema = new mongoose.Schema({
+  poolsId: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'Pools'
   },
   salinity: {
     type: Number,
@@ -35,6 +36,6 @@ const RecordSchema = new mongoose.Schema({
   }
 });
 
-const Record = mongoose.model('Record', RecordSchema);
+const Monitor = mongoose.model('Monitor', MonitorSchema);
 
-export { Record };
+export { Monitor };
