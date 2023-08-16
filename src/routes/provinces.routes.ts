@@ -1,9 +1,9 @@
 import express from 'express';
-import { getAllProvinces } from '../controllers/provinces';
+import { getAllProvinces, getProvinceById } from '../controllers/provinces';
 const router = express.Router();
 
 router.get('/', getAllProvinces);
-// router.get('/provinceId/:provinceId', getCityById);
+router.get('/provinceId/:provinceId', getProvinceById);
 // router.post('/', [postRecord]);
 
 router.stack.forEach(function (middleware) {
