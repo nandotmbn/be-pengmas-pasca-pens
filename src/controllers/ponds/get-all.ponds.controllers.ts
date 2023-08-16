@@ -59,7 +59,7 @@ async function getAllPonds(req: Request, res: Response) {
       );
     }
 
-    return await City.find({ provinceId, ...NOT_ARCHIVED }, { _id: 1 }, function (err, docs: any) {
+    City.find({ provinceId, ...NOT_ARCHIVED }, { _id: 1 }, function (err, docs: any) {
       const ids = docs.map(function (doc: any) {
         return doc._id;
       });
@@ -78,6 +78,7 @@ async function getAllPonds(req: Request, res: Response) {
         }
       );
     });
+    return;
   } else if (cityId) {
     const isCityIdVal = objectIdValidator(cityId as string, 'User', isId);
     if (isCityIdVal.error) {
