@@ -7,6 +7,8 @@ import message from '../../views/message';
 
 async function getAllPonds(req: Request, res: Response) {
   const isId = req.headers['accept-language'] == 'id-ID';
+  const limit: number = parseInt(req.query.limit as string) || 1;
+  const page: number = parseInt(req.query.page as string) || 1;
   const pondsName: string = (req.query.pondsName as string) || '';
   const provinceId: string = (req.query.provinceId as string) || '';
   const cityId: string = (req.query.cityId as string) || '';
@@ -123,7 +125,11 @@ async function getAllPonds(req: Request, res: Response) {
     );
   }
 
-  const ponds = await Ponds.find({ pondsName: { $regex: new RegExp(pondsName, 'i') }, userId, ...NOT_ARCHIVED });
+  const ponds = await Ponds.find({ pondsName: { $regex: new RegExp(pondsName, 'i') }, userId, ...NOT_ARCHIVED })
+    .limit(limit || 1 * 1)
+    .skip((page - 1) * limit)
+    .sort('-isPinned -updatedAt')
+    .exec();
   if (!ponds.length) {
     return res.status(404).send(
       message({
