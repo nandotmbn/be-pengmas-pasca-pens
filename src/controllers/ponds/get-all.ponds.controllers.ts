@@ -37,11 +37,11 @@ async function getAllPonds(req: Request, res: Response) {
   if (provinceId) {
     const isProvIdVal = objectIdValidator(provinceId as string, 'User', isId);
     if (isProvIdVal.error) {
-      return res.status(401).send(
+      return res.status(400).send(
         message({
-          statusCode: 401,
+          statusCode: 400,
           data: req.body,
-          message: 'Token is not valid!'
+          message: 'Province with given Id is not valid!'
         })
       );
     }
@@ -82,7 +82,7 @@ async function getAllPonds(req: Request, res: Response) {
         message({
           statusCode: 401,
           data: req.body,
-          message: 'Token is not valid!'
+          message: 'City with given Id is not valid!'
         })
       );
     }
@@ -100,7 +100,7 @@ async function getAllPonds(req: Request, res: Response) {
 
     const ponds = await Ponds.find({
       pondsName: { $regex: new RegExp(pondsName, 'i') },
-      cityId: req.params.cityId,
+      cityId: cityId,
       userId,
       ...NOT_ARCHIVED
     });
