@@ -59,28 +59,23 @@ async function getAllPonds(req: Request, res: Response) {
       );
     }
 
-    return await City.find({ provinceId, ...NOT_ARCHIVED }, { _id: 1 }, async function (err, docs: any) {
+    return await City.find({ provinceId, ...NOT_ARCHIVED }, { _id: 1 }, function (err, docs: any) {
       const ids = docs.map(function (doc: any) {
         return doc._id;
       });
 
-      const ponds = await Ponds.find({
-        cityId: { $in: ids },
-        userId,
-        ...NOT_ARCHIVED,
-        pondsName: { $regex: new RegExp(pondsName, 'i') },
-        
-      })
-        .limit(limit || 1 * 1)
-        .skip((page - 1) * limit)
-        .sort('-updatedAt')
-        .exec();
-      return res.send(
-        message({
-          statusCode: 200,
-          message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
-          data: ponds
-        })
+      return Ponds.find(
+        { cityId: { $in: ids }, userId, ...NOT_ARCHIVED, pondsName: { $regex: new RegExp(pondsName, 'i') } },
+        { skip: (page - 1) * limit, limit: limit || 1 * 1 },
+        function (err: any, docs: any) {
+          return res.send(
+            message({
+              statusCode: 200,
+              message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+              data: docs
+            })
+          );
+        }
       );
     });
   } else if (cityId) {
