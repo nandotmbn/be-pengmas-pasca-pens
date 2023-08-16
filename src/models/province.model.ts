@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 const ProvinceSchema = new mongoose.Schema({
   provinceName: {
     type: String,
-    min: 0
+    min: 0,
+    unique: true
   },
   latitude: {
     type: String,
