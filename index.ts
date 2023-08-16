@@ -16,7 +16,7 @@ coreRoutes(app);
 connectDatabase(process.env.MONGOURI!);
 WebSocket(app);
 
-provinceAndCitiesInit()
+// provinceAndCitiesInit()
 
 http.listen(port, () => console.log(`[server]: App is listening on port ${port}`));
 export { http };
