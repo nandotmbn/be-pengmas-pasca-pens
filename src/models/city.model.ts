@@ -4,8 +4,7 @@ import mongoose from 'mongoose';
 const CitySchema = new mongoose.Schema({
   cityName: {
     type: String,
-    min: 0,
-    unique: true
+    min: 0
   },
   provinceId : {
     type: mongoose.Schema.Types.ObjectId,
