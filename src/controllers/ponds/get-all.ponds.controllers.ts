@@ -59,22 +59,28 @@ async function getAllPonds(req: Request, res: Response) {
       );
     }
 
-    return await City.find({ provinceId, ...NOT_ARCHIVED }, { _id: 1 }, function (err, docs: any) {
+    return await City.find({ provinceId, ...NOT_ARCHIVED }, { _id: 1 }, async function (err, docs: any) {
       const ids = docs.map(function (doc: any) {
         return doc._id;
       });
 
-      return Ponds.find(
-        { cityId: { $in: ids }, userId, ...NOT_ARCHIVED, pondsName: { $regex: new RegExp(pondsName, 'i') } },
-        function (err: any, docs: any) {
-          return res.send(
-            message({
-              statusCode: 200,
-              message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
-              data: docs
-            })
-          );
-        }
+      const ponds = await Ponds.find({
+        cityId: { $in: ids },
+        userId,
+        ...NOT_ARCHIVED,
+        pondsName: { $regex: new RegExp(pondsName, 'i') },
+        
+      })
+        .limit(limit || 1 * 1)
+        .skip((page - 1) * limit)
+        .sort('-updatedAt')
+        .exec();
+      return res.send(
+        message({
+          statusCode: 200,
+          message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+          data: ponds
+        })
       );
     });
   } else if (cityId) {
@@ -105,7 +111,11 @@ async function getAllPonds(req: Request, res: Response) {
       cityId: cityId,
       userId,
       ...NOT_ARCHIVED
-    });
+    })
+      .limit(limit || 1 * 1)
+      .skip((page - 1) * limit)
+      .sort('-updatedAt')
+      .exec();
     if (!ponds.length) {
       return res.status(404).send(
         message({
@@ -128,7 +138,7 @@ async function getAllPonds(req: Request, res: Response) {
   const ponds = await Ponds.find({ pondsName: { $regex: new RegExp(pondsName, 'i') }, userId, ...NOT_ARCHIVED })
     .limit(limit || 1 * 1)
     .skip((page - 1) * limit)
-    .sort('-isPinned -updatedAt')
+    .sort('-updatedAt')
     .exec();
   if (!ponds.length) {
     return res.status(404).send(
