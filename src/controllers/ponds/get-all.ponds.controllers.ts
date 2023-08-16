@@ -66,7 +66,6 @@ async function getAllPonds(req: Request, res: Response) {
 
       return Ponds.find(
         { cityId: { $in: ids }, userId, ...NOT_ARCHIVED, pondsName: { $regex: new RegExp(pondsName, 'i') } },
-        { skip: (page - 1) * limit, limit: limit || 1 * 1 },
         function (err: any, docs: any) {
           return res.send(
             message({
