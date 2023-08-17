@@ -34,7 +34,7 @@ async function getPoolsByPondsId(req: Request, res: Response) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: 'Tambak tidak ditemukan',
+        message: 'Kolam tidak ditemukan',
         data: req.query
       })
     );
@@ -43,7 +43,7 @@ async function getPoolsByPondsId(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: 'Tambak berhasil didapatkan',
+      message: 'Kolam berhasil didapatkan',
       data: pools
     })
   );
