@@ -4,7 +4,7 @@ import { validatePostRecord } from '../../validators';
 import message from '../../views/message';
 
 async function postSampleByKey(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID' ? true : false;
+  const isId = true;
   const apiKey = req.params.apiKey;
   const isUserExist = await Users.findOne({apiKey: apiKey});
   if (!isUserExist) {
@@ -12,7 +12,7 @@ async function postSampleByKey(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan Token yang digunakan tidak ditemukan!'
       })
     );
   }
@@ -23,7 +23,7 @@ async function postSampleByKey(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pools by given ID is not found!'
+        message: 'Kolam dengan Id yang diberikan tidak ditemukan!'
       })
     );
   }
@@ -47,7 +47,7 @@ async function postSampleByKey(req: Request, res: Response) {
   const savedSample = await record.save();
 
   const ioEmitter = req.app.get('socketIo');
-  ioEmitter.emit(isUserExist._id, savedSample);
+  ioEmitter.emit(`Sample:${req.params.poolsId}`, savedSample);
 
   return res.send(
     message({

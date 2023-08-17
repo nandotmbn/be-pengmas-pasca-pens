@@ -5,15 +5,14 @@ import { objectIdValidator } from '../../validators';
 import message from '../../views/message';
 
 async function getAllMonitorToday(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
   const userId = extractToken(req.headers.authorization, false).result._id;
-  const isIdValid = objectIdValidator(userId as string, 'User', isId);
+  const isIdValid = objectIdValidator(userId as string, 'User', true);
   if (isIdValid.error) {
     return res.status(401).send(
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -24,7 +23,7 @@ async function getAllMonitorToday(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan token yang diberikan tidak ditemukan!!'
       })
     )
   }
@@ -35,7 +34,7 @@ async function getAllMonitorToday(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pool by Id is not found!'
+        message: 'Kolam dengan Id yang diberikan tidak ditemukan!'
       })
     )
   }
@@ -49,7 +48,7 @@ async function getAllMonitorToday(req: Request, res: Response) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: isId ? 'Monitor tidak ditemukan' : 'Monitor are not found',
+        message: 'Pemantauan tidak ditemukan',
         data: req.query
       })
     );
@@ -57,7 +56,7 @@ async function getAllMonitorToday(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: isId ? 'Monitor berhasil didapatkan' : 'Monitor are successfully found',
+      message: 'Pemantauan berhasil didapatkan',
       data: record
     })
   );

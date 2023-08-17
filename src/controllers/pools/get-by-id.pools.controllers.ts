@@ -6,15 +6,14 @@ import { objectIdValidator } from '../../validators';
 import message from '../../views/message';
 
 async function getPoolsById(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
   const userId = extractToken(req.headers.authorization, false).result._id;
-  const isIdValid = objectIdValidator(userId as string, 'User', isId);
+  const isIdValid = objectIdValidator(userId as string, 'User', true);
   if (isIdValid.error) {
     return res.status(401).send(
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -25,7 +24,7 @@ async function getPoolsById(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan Token yang digunakan tidak ditemukan!'
       })
     )
   }
@@ -35,7 +34,7 @@ async function getPoolsById(req: Request, res: Response) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: isId ? 'Kolam tidak ditemukan' : 'Pools are not found',
+        message: 'Kolam tidak ditemukan',
         data: req.query
       })
     );
@@ -44,7 +43,7 @@ async function getPoolsById(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: isId ? 'Kolam berhasil didapatkan' : 'Pool are successfully found',
+      message: 'Kolam berhasil didapatkan',
       data: pools
     })
   );

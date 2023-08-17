@@ -7,16 +7,14 @@ import { objectIdValidator } from '../../validators';
 import _ from 'lodash';
 
 async function createPondsByUser(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
-
   const userId = extractToken(req.headers.authorization, false).result._id;
-  const isIdValid = objectIdValidator(userId as string, 'User', isId);
+  const isIdValid = objectIdValidator(userId as string, 'User', true);
   if (isIdValid.error) {
     return res.status(401).send(
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -27,7 +25,7 @@ async function createPondsByUser(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'User dengan Token yang digunakan tidak dapat ditemukan!'
       })
     );
   }
@@ -38,7 +36,7 @@ async function createPondsByUser(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'City by given ID is not found!'
+        message: 'City dengan ID yang berikan tidak ditemukan!'
       })
     );
   }
@@ -55,7 +53,7 @@ async function createPondsByUser(req: Request, res: Response) {
       message({
         statusCode: 400,
         data: req.body,
-        message: 'Pond with given name has been initialized!'
+        message: 'Tambak dengan nama yang sama telah ditambahkan!'
       })
     );
   }
@@ -68,7 +66,7 @@ async function createPondsByUser(req: Request, res: Response) {
   return res.status(201).send(
     message({
       statusCode: 201,
-      message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+      message: 'Tambak berhasil didapatkan',
       data: {
         ...{
           ..._.omit(req.body, ["cityId"]),

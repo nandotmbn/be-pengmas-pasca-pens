@@ -8,7 +8,7 @@ import message from '../../views/message';
 async function getAllSample(req: Request, res: Response) {
   const from = (req.query.from as string) || '';
   const to = (req.query.to as string) || '';
-  const isId = req.headers['accept-language'] == 'id-ID';
+  const isId = true;
   const limit: number = parseInt(req.query.limit as string) || 9999;
   const page: number = parseInt(req.query.page as string) || 1;
   const newestTime: string = (req.query.newestTime as string) || 'false';
@@ -20,7 +20,7 @@ async function getAllSample(req: Request, res: Response) {
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -31,7 +31,7 @@ async function getAllSample(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan Token yang digunakan tidak ditemukan!'
       })
     )
   }
@@ -42,7 +42,7 @@ async function getAllSample(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pool by Id is not found!'
+        message: 'Kolam dengan Id ini tidak ditemukan!'
       })
     )
   }

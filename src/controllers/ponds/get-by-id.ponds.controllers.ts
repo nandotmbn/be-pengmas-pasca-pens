@@ -5,13 +5,12 @@ import { NOT_ARCHIVED } from '../../utils';
 import message from '../../views/message';
 
 async function getPondsById(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
   const ponds = await Ponds.findOne({_id: req.params.pondsId, ...NOT_ARCHIVED});
   if (!ponds) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: isId ? 'Tambak tidak ditemukan' : 'Ponds are not found',
+        message: 'Tambak tidak ditemukan',
         data: req.query
       })
     );
@@ -20,7 +19,7 @@ async function getPondsById(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+      message: 'Tambak berhasil didapatkan',
       data: ponds
     })
   );

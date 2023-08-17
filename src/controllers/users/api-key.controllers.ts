@@ -10,7 +10,7 @@ async function apiKeyUpdate(req: Request, res: Response) {
     return res.status(400).send(
       message({
         statusCode: 400,
-        message: 'Token is not valid',
+        message: 'Token tidak valid',
         data: req.body
       })
     );

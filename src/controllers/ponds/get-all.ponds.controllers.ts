@@ -6,7 +6,6 @@ import { objectIdValidator } from '../../validators';
 import message from '../../views/message';
 
 async function getAllPonds(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
   const limit: number = parseInt(req.query.limit as string) || 1;
   const page: number = parseInt(req.query.page as string) || 1;
   const pondsName: string = (req.query.pondsName as string) || '';
@@ -14,13 +13,13 @@ async function getAllPonds(req: Request, res: Response) {
   const cityId: string = (req.query.cityId as string) || '';
 
   const userId = extractToken(req.headers.authorization, false).result._id;
-  const isIdValid = objectIdValidator(userId as string, 'User', isId);
+  const isIdValid = objectIdValidator(userId as string, 'User', true);
   if (isIdValid.error) {
     return res.status(401).send(
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -31,19 +30,19 @@ async function getAllPonds(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan token yang diberikan tidak ditemukan!'
       })
     );
   }
 
   if (provinceId) {
-    const isProvIdVal = objectIdValidator(provinceId as string, 'User', isId);
+    const isProvIdVal = objectIdValidator(provinceId as string, 'User', true);
     if (isProvIdVal.error) {
       return res.status(400).send(
         message({
           statusCode: 400,
           data: req.body,
-          message: 'Province with given Id is not valid!'
+          message: 'ID provinsi tidak valid!'
         })
       );
     }
@@ -54,7 +53,7 @@ async function getAllPonds(req: Request, res: Response) {
         message({
           statusCode: 400,
           data: req.body,
-          message: 'Province with given id is not exist!'
+          message: 'Propinsi dengan ID yang diberikan tidak ditemukan!'
         })
       );
     }
@@ -70,7 +69,7 @@ async function getAllPonds(req: Request, res: Response) {
           return res.send(
             message({
               statusCode: 200,
-              message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+              message: 'Tambak berhasil didapatkan',
               data: docs
             })
           );
@@ -79,7 +78,7 @@ async function getAllPonds(req: Request, res: Response) {
     });
     return;
   } else if (cityId) {
-    const isCityIdVal = objectIdValidator(cityId as string, 'User', isId);
+    const isCityIdVal = objectIdValidator(cityId as string, 'User', true);
     if (isCityIdVal.error) {
       return res.status(401).send(
         message({
@@ -115,7 +114,7 @@ async function getAllPonds(req: Request, res: Response) {
       return res.status(404).send(
         message({
           statusCode: 404,
-          message: isId ? 'Tambak tidak ditemukan' : 'Ponds are not found',
+          message: 'Tambak tidak ditemukan',
           data: req.query
         })
       );
@@ -124,7 +123,7 @@ async function getAllPonds(req: Request, res: Response) {
     return res.send(
       message({
         statusCode: 200,
-        message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+        message: 'Tambak berhasil didapatkan',
         data: ponds
       })
     );
@@ -139,7 +138,7 @@ async function getAllPonds(req: Request, res: Response) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: isId ? 'Tambak tidak ditemukan' : 'Ponds are not found',
+        message: 'Tambak tidak ditemukan',
         data: req.query
       })
     );
@@ -147,7 +146,7 @@ async function getAllPonds(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: isId ? 'Tambak berhasil didapatkan' : 'Ponds are successfully found',
+      message: 'Tambak berhasil didapatkan',
       data: ponds
     })
   );

@@ -14,7 +14,7 @@ function extractToken(token: string | undefined, isId: boolean) {
       const result: any = jwt.verify(token!, process.env.JWTPRIVATEKEY!) as any;
       return { result };
     } catch (error) {
-      return { error: isId ? 'Token tidak valid!' : 'Token is not valid!' };
+      return { error: isId ? 'Token tidak valid!' : 'Token tidak valid!' };
     }
   } else {
     return { error: isId ? 'Token bukan bearer type!' : 'Token is not Bearer type' };

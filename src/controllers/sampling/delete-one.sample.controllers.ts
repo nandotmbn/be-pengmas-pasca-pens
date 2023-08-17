@@ -4,7 +4,7 @@ import { Sample } from '../../models';
 import message from '../../views/message';
 
 async function deleteOneSample(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
+  const isId = true;
   const record = await Sample.findById(req.params.recordId);
   if (!record) {
     return res.status(404).send(

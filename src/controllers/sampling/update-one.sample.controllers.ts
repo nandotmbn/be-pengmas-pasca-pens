@@ -5,7 +5,6 @@ import { validatePostRecord } from '../../validators';
 import message from '../../views/message';
 
 async function updateSample(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == "id-ID";
   const { error } = validatePostRecord(req.body);
   if (error) {
     return res.status(400).send(
@@ -20,7 +19,7 @@ async function updateSample(req: Request, res: Response) {
   if(!record) {
     return res.status(404).send(message({
       statusCode: 404,
-      message: isId ? "Berita tidak ditemukan" : "Record is not found",
+      message: "Sample tidak ditemukan",
       data: req.query
     }))
   }
@@ -34,7 +33,7 @@ async function updateSample(req: Request, res: Response) {
   const updatedRecord = await record?.save()
   res.send(message({
     statusCode: 201,
-    message: isId ? "Berita berhasil diperbarui" : "Record is successfully updated",
+    message: "Sample berhasil diperbarui",
     data: updatedRecord
   }))
 }

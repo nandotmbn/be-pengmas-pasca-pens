@@ -4,7 +4,6 @@ import { validatePostRecord } from '../../validators';
 import message from '../../views/message';
 
 async function postMonitorByKey(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID' ? true : false;
   const apiKey = req.params.apiKey;
   const isUserExist = await Users.findOne({apiKey: apiKey});
   if (!isUserExist) {
@@ -12,7 +11,7 @@ async function postMonitorByKey(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan API Key yang diberikan tidak ditemukan!'
       })
     );
   }
@@ -23,7 +22,7 @@ async function postMonitorByKey(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pools by given ID is not found!'
+        message: 'Kolam dengan Id yang diberikan tidak ditemukan!'
       })
     );
   }
@@ -47,12 +46,13 @@ async function postMonitorByKey(req: Request, res: Response) {
   const savedMonitor = await record.save();
 
   const ioEmitter = req.app.get('socketIo');
-  ioEmitter.emit(isUserExist._id, savedMonitor);
+  ioEmitter.emit(`Monitor:${req.params.poolsId}`, savedMonitor);
+  
 
   return res.send(
     message({
       statusCode: 201,
-      message: isId ? 'Monitor berhasil dibuat' : 'Monitor is successfully created',
+      message: 'Pemantauan berhasil disimpan!',
       data: savedMonitor
     })
   );

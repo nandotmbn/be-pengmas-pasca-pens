@@ -4,7 +4,6 @@ import { City } from '../../models';
 import message from '../../views/message';
 
 async function getAllCity(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
   const cityName: string = (req.query.cityName as string) || '';
 
   const cities = await City.find({cityName: { $regex: new RegExp(cityName, 'i') }});
@@ -12,7 +11,7 @@ async function getAllCity(req: Request, res: Response) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: isId ? 'Kota tidak ditemukan' : 'City are not found',
+        message: 'Kota tidak ditemukan',
         data: req.query
       })
     );
@@ -20,7 +19,7 @@ async function getAllCity(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: isId ? 'Kota berhasil didapatkan' : 'City are successfully found',
+      message: 'Kota berhasil didapatkan',
       data: cities
     })
   );

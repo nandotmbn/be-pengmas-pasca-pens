@@ -5,7 +5,7 @@ import { objectIdValidator } from '../../validators';
 import message from '../../views/message';
 
 async function getAllSampleToday(req: Request, res: Response) {
-  const isId = req.headers['accept-language'] == 'id-ID';
+  const isId = true;
   const userId = extractToken(req.headers.authorization, false).result._id;
   const isIdValid = objectIdValidator(userId as string, 'User', isId);
   if (isIdValid.error) {
@@ -13,7 +13,7 @@ async function getAllSampleToday(req: Request, res: Response) {
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -24,7 +24,7 @@ async function getAllSampleToday(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'Pengguna dengan Token yang digunakan tidak ditemukan!'
       })
     )
   }
@@ -35,7 +35,7 @@ async function getAllSampleToday(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pool by Id is not found!'
+        message: 'Kolam dengan Id yang diberikan tidak ditemukan!'
       })
     )
   }

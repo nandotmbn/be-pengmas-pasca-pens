@@ -23,7 +23,7 @@ async function register(req: Request, res: Response) {
     return res.status(400).send(
       message({
         statusCode: 400,
-        message: 'User with given username had been registered',
+        message: 'User dengan username yang diberikan sudah diregistrasikan!',
         data: req.body
       })
     );
@@ -55,7 +55,7 @@ async function register(req: Request, res: Response) {
   res.status(201).send(
     message({
       statusCode: 201,
-      message: 'User successfully registered',
+      message: 'Anda berhasil mendaftar!',
       data: {
         ...user
       }

@@ -8,19 +8,18 @@ import message from '../../views/message';
 async function getAllMonitor(req: Request, res: Response) {
   const from = (req.query.from as string) || '';
   const to = (req.query.to as string) || '';
-  const isId = req.headers['accept-language'] == 'id-ID';
   const limit: number = parseInt(req.query.limit as string) || 9999;
   const page: number = parseInt(req.query.page as string) || 1;
   const newestTime: string = (req.query.newestTime as string) || 'false';
 
   const userId = extractToken(req.headers.authorization, false).result._id;
-  const isIdValid = objectIdValidator(userId as string, 'User', isId);
+  const isIdValid = objectIdValidator(userId as string, 'User', true);
   if (isIdValid.error) {
     return res.status(401).send(
       message({
         statusCode: 401,
         data: req.body,
-        message: 'Token is not valid!'
+        message: 'Token tidak valid!'
       })
     );
   }
@@ -31,7 +30,7 @@ async function getAllMonitor(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User by given API Key is not found!'
+        message: 'User dengan API yang diberikan tidak ditemukan!'
       })
     )
   }
@@ -42,7 +41,7 @@ async function getAllMonitor(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pool by Id is not found!'
+        message: 'Kolam dengan Id yang diberikan tidak ditemukan!'
       })
     )
   }
@@ -76,7 +75,7 @@ async function getAllMonitor(req: Request, res: Response) {
     return res.status(404).send(
       message({
         statusCode: 404,
-        message: isId ? 'Monitor tidak ditemukan' : 'Monitor are not found',
+        message: 'Monitor tidak ditemukan',
         data: req.query
       })
     );
@@ -84,7 +83,7 @@ async function getAllMonitor(req: Request, res: Response) {
   return res.send(
     message({
       statusCode: 200,
-      message: isId ? 'Monitor berhasil didapatkan' : 'Monitor are successfully found',
+      message: 'Monitor berhasil didapatkan',
       data: record
     })
   );

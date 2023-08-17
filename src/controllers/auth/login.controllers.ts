@@ -25,10 +25,7 @@ async function login(req: Request, res: Response) {
     return res.status(400).send(
       message({
         statusCode: 400,
-        message:
-          req.headers['accept-language'] == 'id-ID'
-            ? 'Username atau email anda tidak valid'
-            : 'Username or email is not valid',
+        message: 'Username atau email anda tidak valid',
         data: req.body
       })
     );
@@ -39,7 +36,7 @@ async function login(req: Request, res: Response) {
     return res.status(403).send(
       message({
         statusCode: 403,
-        message: req.headers['accept-language'] == 'id-ID' ? 'Password tidak valid' : 'Invalid password',
+        message: 'Password tidak valid',
         data: req.body
       })
     );
@@ -48,7 +45,7 @@ async function login(req: Request, res: Response) {
   res.header('x-auth-token', jwt.sign({ _id: isUserExist._id }, process.env.JWTPRIVATEKEY!)).send(
     message({
       statusCode: 200,
-      message: req.headers['accept-language'] == 'id-ID' ? 'Anda berhasil masuk' : 'You have successfully logged in!',
+      message: 'Anda berhasil masuk',
       data: {
         data: isUserExist,
         access_token: jwt.sign({ _id: isUserExist._id }, process.env.JWTPRIVATEKEY!)
