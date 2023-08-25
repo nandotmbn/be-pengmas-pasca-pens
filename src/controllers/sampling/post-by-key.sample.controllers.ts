@@ -17,7 +17,7 @@ async function postSampleByKey(req: Request, res: Response) {
     );
   }
 
-  const isPoolsExist = await Pools.findOne({_id: req.params.poolsId, userId: isUserExist._id});
+  const isPoolsExist = await Pools.findOne({deviceName: req.params.deviceName, userId: isUserExist._id});
   if (!isPoolsExist) {
     return res.status(404).send(
       message({
@@ -41,13 +41,13 @@ async function postSampleByKey(req: Request, res: Response) {
   const record = new Sample({
     ...req.body,
     userId: isUserExist._id,
-    poolsId: req.params.poolsId
+    poolsId: isPoolsExist._id
   });
   
   const savedSample = await record.save();
 
   const ioEmitter = req.app.get('socketIo');
-  ioEmitter.emit(`Sample:${req.params.poolsId}`, savedSample);
+  ioEmitter.emit(`Sample:${isPoolsExist._id}`, savedSample);
 
   return res.send(
     message({

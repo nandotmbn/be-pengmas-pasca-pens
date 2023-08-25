@@ -16,7 +16,7 @@ async function postMonitorByKey(req: Request, res: Response) {
     );
   }
 
-  const isPoolsExist = await Pools.findOne({_id: req.params.poolsId, userId: isUserExist._id});
+  const isPoolsExist = await Pools.findOne({deviceName: req.params.deviceName, userId: isUserExist._id});
   if (!isPoolsExist) {
     return res.status(404).send(
       message({
@@ -40,13 +40,13 @@ async function postMonitorByKey(req: Request, res: Response) {
   const record = new Monitor({
     ...req.body,
     userId: isUserExist._id,
-    poolsId: req.params.poolsId
+    poolsId: isPoolsExist._id
   });
   
   const savedMonitor = await record.save();
 
   const ioEmitter = req.app.get('socketIo');
-  ioEmitter.emit(`Monitor:${req.params.poolsId}`, savedMonitor);
+  ioEmitter.emit(`Monitor:${isPoolsExist._id}`, savedMonitor);
   
 
   return res.send(

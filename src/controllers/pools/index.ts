@@ -6,4 +6,5 @@ export { getPoolsByProvinceId } from './get-by-province-id.pools.controllers';
 export { createPoolsByUser } from './post.pools.controllers';
 export { updatePoolByUser } from './put.pools.controllers';
 export { deletePoolsById } from './delete-by-id.pools.controllers';
+export { bindPoolsWithDevice } from './bind-device.pools.controllers';
 // export { postCityUncontrolled } from './post.city.uncontrollers';

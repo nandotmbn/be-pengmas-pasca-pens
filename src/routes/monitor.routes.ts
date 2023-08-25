@@ -14,7 +14,7 @@ router.get('/poolsId/:poolsId', getAllMonitor);
 router.get('/poolsId/:poolsId/today', getAllMonitorToday);
 router.get('/:recordId', getOneMonitor);
 router.post('/poolsId/:poolsId', [postMonitor]);
-router.post('/apiKey/:apiKey/poolsId/:poolsId', [postMonitorByKey]);
+router.post('/apiKey/:apiKey/deviceName/:deviceName', [postMonitorByKey]);
 router.put('/:recordId', [updateMonitor]);
 router.delete('/:recordId', [deleteOneMonitor]);
 

@@ -6,3 +6,4 @@ export { router as CityRouter } from './city.routes';
 export { router as ProvinceRouter } from './provinces.routes';
 export { router as PondsRouter } from './ponds.routes';
 export { router as PoolsRouter } from './pools.routes';
+export { router as DeviceRouter } from './device.routes';

@@ -14,7 +14,7 @@ router.get('/poolsId/:poolsId', getAllSample);
 router.get('/poolsId/:poolsId/today', getAllSampleToday);
 router.get('/:recordId', getOneSample);
 router.post('/poolsId/:poolsId', [postSample]);
-router.post('/apiKey/:apiKey/poolsId/:poolsId', [postSampleByKey]);
+router.post('/apiKey/:apiKey/deviceName/:deviceName', [postSampleByKey]);
 router.put('/:recordId', [updateSample]);
 router.delete('/:recordId', [deleteOneSample]);
 

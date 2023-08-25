@@ -8,6 +8,7 @@ import {
   getPoolsByProvinceId,
   updatePoolByUser,
   deletePoolsById,
+  bindPoolsWithDevice,
 } from '../controllers/pools';
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.get('/cityId/:cityId', getPoolsByCityId);
 router.get('/provinceId/:provinceId', getPoolsByProvinceId);
 router.post('/', [createPoolsByUser]);
 router.put('/poolsId/:poolsId', [updatePoolByUser]);
+router.put('/bind/poolsId/:poolsId', [bindPoolsWithDevice]);
 router.delete('/poolsId/:poolsId', [deletePoolsById]);
 
 router.stack.forEach(function (middleware) {

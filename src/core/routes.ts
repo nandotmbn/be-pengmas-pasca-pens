@@ -7,11 +7,13 @@ import {
   ProvinceRouter,
   MonitorRouter,
   UserRouter,
-  SampleRouter
+  SampleRouter,
+  DeviceRouter
 } from '../routes';
 
 export default function coreRoutes(app: Express) {
   app.use('/api/v1/auth', [AuthRouter]); // Auth Routes
+  app.use('/api/v1/device', [DeviceRouter]); // Device Routes
   app.use('/api/v1/users', [UserRouter]); // Users Routes
   app.use('/api/v1/provinces', [ProvinceRouter]); // City Routes
   app.use('/api/v1/cities', [CityRouter]); // City Routes

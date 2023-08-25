@@ -14,7 +14,15 @@ const PoolsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Ponds'
   },
+  deviceName: {
+    type: String,
+    default: ""
+  },
   isArchived: {
+    type: Boolean,
+    default: false
+  },
+  isActived: {
     type: Boolean,
     default: false
   },

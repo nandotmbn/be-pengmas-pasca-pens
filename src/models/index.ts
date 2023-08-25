@@ -5,3 +5,4 @@ export { Sample } from './sampling.model';
 export { Ponds } from './ponds.model';
 export { Pools } from './pools.model';
 export { Province } from './province.model';
+export { Device } from './device.model';
