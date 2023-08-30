@@ -12,7 +12,7 @@ async function postSampleByKey(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'Pengguna dengan Token yang digunakan tidak ditemukan!'
+        message: 'Pengguna dengan API Key yang digunakan tidak ditemukan!'
       })
     );
   }
@@ -41,7 +41,7 @@ async function postSampleByKey(req: Request, res: Response) {
   const record = new Sample({
     ...req.body,
     userId: isUserExist._id,
-    poolsId: isPoolsExist._id
+    poolsId: isPoolsExist._id,
   });
   
   const savedSample = await record.save();

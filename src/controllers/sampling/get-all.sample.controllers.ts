@@ -33,35 +33,35 @@ async function getAllSample(req: Request, res: Response) {
         data: req.body,
         message: 'Pengguna dengan Token yang digunakan tidak ditemukan!'
       })
-    )
+    );
   }
 
-  const isPoolExist = await Pools.findOne({userId, ...NOT_ARCHIVED, _id: req.params.poolsId})
-  if(!isPoolExist) {
+  const isPoolExist = await Pools.findOne({ userId, ...NOT_ARCHIVED, _id: req.params.poolsId });
+  if (!isPoolExist) {
     return res.status(404).send(
       message({
         statusCode: 404,
         data: req.body,
         message: 'Kolam dengan Id ini tidak ditemukan!'
       })
-    )
+    );
   }
 
-  let params: any = {};
+  let params: any = { poolsId: req.params.poolsId };
 
   if (from && !to) {
     const gte = new Date(from);
 
-    params = { createdAt: { $gte: gte } };
+    params = { createdAt: { $gte: gte }, poolsId: req.params.poolsId };
   } else if (!from && to) {
     const lte = new Date(to);
 
-    params = { createdAt: { $lte: lte } };
+    params = { createdAt: { $lte: lte }, poolsId: req.params.poolsId };
   } else if (from && to) {
     const gte = new Date(from);
     const lte = new Date(to);
 
-    params = { createdAt: { $gte: gte, $lte: lte } };
+    params = { createdAt: { $gte: gte, $lte: lte }, poolsId: req.params.poolsId };
   }
 
   const sortParams = newestTime == 'false' ? 'createdAt' : '-createdAt';

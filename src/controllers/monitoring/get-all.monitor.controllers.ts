@@ -32,35 +32,35 @@ async function getAllMonitor(req: Request, res: Response) {
         data: req.body,
         message: 'User dengan API yang diberikan tidak ditemukan!'
       })
-    )
+    );
   }
 
-  const isPoolExist = await Pools.findOne({userId, ...NOT_ARCHIVED, _id: req.params.poolsId})
-  if(!isPoolExist) {
+  const isPoolExist = await Pools.findOne({ userId, ...NOT_ARCHIVED, _id: req.params.poolsId });
+  if (!isPoolExist) {
     return res.status(404).send(
       message({
         statusCode: 404,
         data: req.body,
         message: 'Kolam dengan Id yang diberikan tidak ditemukan!'
       })
-    )
+    );
   }
 
-  let params: any = {};
+  let params: any = { pooldId: req.params.poolsId };
 
   if (from && !to) {
     const gte = new Date(from);
 
-    params = { createdAt: { $gte: gte } };
+    params = { createdAt: { $gte: gte }, pooldId: req.params.poolsId };
   } else if (!from && to) {
     const lte = new Date(to);
 
-    params = { createdAt: { $lte: lte } };
+    params = { createdAt: { $lte: lte }, pooldId: req.params.poolsId };
   } else if (from && to) {
     const gte = new Date(from);
     const lte = new Date(to);
 
-    params = { createdAt: { $gte: gte, $lte: lte } };
+    params = { createdAt: { $gte: gte, $lte: lte }, pooldId: req.params.poolsId };
   }
 
   const sortParams = newestTime == 'false' ? 'createdAt' : '-createdAt';
