@@ -46,7 +46,7 @@ async function getAllMonitor(req: Request, res: Response) {
     );
   }
 
-  let params: any = { pooldId: req.params.poolsId };
+  let params: any = { poolsId: req.params.poolsId };
 
   if (from && !to) {
     const gte = new Date(from);
