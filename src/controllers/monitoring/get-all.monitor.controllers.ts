@@ -30,7 +30,7 @@ async function getAllMonitor(req: Request, res: Response) {
       message({
         statusCode: 404,
         data: req.body,
-        message: 'User dengan API yang diberikan tidak ditemukan!'
+        message: 'User dengan Token yang diberikan tidak ditemukan!'
       })
     );
   }
@@ -51,16 +51,16 @@ async function getAllMonitor(req: Request, res: Response) {
   if (from && !to) {
     const gte = new Date(from);
 
-    params = { createdAt: { $gte: gte }, pooldId: req.params.poolsId };
+    params = { createdAt: { $gte: gte }, poolsId: req.params.poolsId };
   } else if (!from && to) {
     const lte = new Date(to);
 
-    params = { createdAt: { $lte: lte }, pooldId: req.params.poolsId };
+    params = { createdAt: { $lte: lte }, poolsId: req.params.poolsId };
   } else if (from && to) {
     const gte = new Date(from);
     const lte = new Date(to);
 
-    params = { createdAt: { $gte: gte, $lte: lte }, pooldId: req.params.poolsId };
+    params = { createdAt: { $gte: gte, $lte: lte }, poolsId: req.params.poolsId };
   }
 
   const sortParams = newestTime == 'false' ? 'createdAt' : '-createdAt';
